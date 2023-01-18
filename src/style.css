@@ -1,0 +1,19 @@
+body{
+    background-color: black;
+}
+
+#content-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#card-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#today-card{
+    
+}

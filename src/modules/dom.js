@@ -1,95 +1,145 @@
 import { getWeatherForToday, getCity } from "./weather.js";
 
+const spinner = document.querySelector("#spinner");
+const overlay = document.querySelector("#overlay");
 
-async function changeCity(){
-    let city = document.getElementById("search-field");
-    let citydata = await getCity(city.value);
+
+async function changeCity() {
+  let city = document.getElementById("search-field");
+  overlay.style.display = "block";
+  spinner.style.display = "block"; // show the spinner
+
+  let citydata = await getCity(city.value);
+  try{
     let cityName = await citydata.name;
     let countryName = await citydata.country;
-    
-    document.getElementById("city-text").textContent = cityName+", "+countryName;
-
+  
+    document.getElementById("city-text").textContent =
+      cityName + ", " + countryName;
+  
     let textLength = document.getElementById("city-text").textContent.length;
     let desiredWidth = 0.5;
     let fontSize = (desiredWidth * 100) / textLength;
     document.getElementById("city-text").style.fontSize = fontSize + "vw";
+  
+    await refreshTemperatures(cityName);
+    overlay.style.display = "none";
+    spinner.style.display = "none"; 
+  }
+  catch{
+    console.log("ERRO");
+    overlay.style.display = "none";
+    spinner.style.display = "none"; 
+  }
+
+}
+
+async function refreshTemperatures(cityName){
+    getWeatherForToday(cityName);
 }
 
 function citySearch() {
-    const cityContainer = document.createElement('div');
-    const contentContainer = document.getElementById("content-container");
-    cityContainer.id = "city-container"
+  const cityContainer = document.createElement("div");
+  const contentContainer = document.getElementById("content-container");
+  cityContainer.id = "city-container";
 
-    const cityText = document.createElement('div');
-    cityText.id = "city-text";
-    cityText.textContent = "Lisbon, PT";
+  const cityText = document.createElement("div");
+  cityText.id = "city-text";
+  cityText.textContent = "Lisbon, PT";
 
-    const citySearchField = document.createElement("input");
-    citySearchField.setAttribute("type", "text");
-    citySearchField.setAttribute("id", "search-field");
-    citySearchField.setAttribute("placeholder", "Search...");
+  const citySearchField = document.createElement("input");
+  citySearchField.setAttribute("type", "text");
+  citySearchField.setAttribute("id", "search-field");
+  citySearchField.setAttribute("placeholder", "Search...");
 
+  const citySearchB = document.createElement("button");
+  citySearchB.setAttribute("id", "search-button");
+  citySearchB.setAttribute("type", "search-button");
+  citySearchB.innerHTML =
+    "<span class='material-symbols-outlined'> search </span>";
+  citySearchB.addEventListener("click", () => {
+    changeCity();
+    document.getElementById("search-field").value = "";
+  });
 
+  citySearchField.addEventListener("keypress", function (event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.key === "Enter") {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.getElementById("search-button").click();
 
-    const citySearchB = document.createElement("button");
-    citySearchB.setAttribute("id", "search-button");
-    citySearchB.setAttribute("type", "search-button");
-    citySearchB.innerHTML = "<span class='material-symbols-outlined'> search </span>";
-    citySearchB.addEventListener("click",()=>{
-        changeCity();
-        document.getElementById("search-field").textContent = "";
-    })
+    }
+  });
+  cityContainer.appendChild(cityText);
+  cityContainer.appendChild(citySearchField);
+  cityContainer.appendChild(citySearchB);
 
-    citySearchField.addEventListener("keypress", function(event) {
-        // If the user presses the "Enter" key on the keyboard
-        if (event.key === "Enter") {
-          // Cancel the default action, if needed
-          event.preventDefault();
-          // Trigger the button element with a click
-          document.getElementById("search-button").click();
-        }
-      });
-    cityContainer.appendChild(cityText);
-    cityContainer.appendChild(citySearchField);
-    cityContainer.appendChild(citySearchB);
-
-    contentContainer.appendChild(cityContainer);
+  contentContainer.appendChild(cityContainer);
 }
 
 function weatherCards() {
+  const cardContainer = document.createElement("div");
+  cardContainer.id = "card-container";
 
-    const cardContainer = document.createElement('div')
-    cardContainer.id = "card-container"
+  const todayCard = document.createElement("div");
+  todayCard.id = "today-card";
 
-    const todayCard = document.createElement('div')
-    todayCard.id = "today-card"
+  const date = new Date();
+  console.log(date);
+  let p = document.createElement("p");
+  p.id = "today-text";
+  p.textContent = date.getDate() + "/" + date.getMonth() + 1;
+  let infoCont = document.createElement("div");
+  infoCont.id = "today-info-container";
 
+  let todayCurr = document.createElement("p");
+  todayCurr.id = "today-current";
+  //REMOVER DEPOIS - APENAS PARA TESTE DE UI
+  todayCurr.textContent = "27'C";
 
-    const date = new Date();
-    console.log(date);
-    let p = document.createElement('p');
-    p.id = "today-text";
-    p.textContent = date.getDate() + "/" + date.getMonth() + 1;
+  let todayMinMax = document.createElement("div");
+  todayMinMax.id = "today-minmax";
+  
 
-    todayCard.appendChild(p)
+  let todayMaxT = document.createElement("p");
+  todayMaxT.id = "today-maxt";
+  //REMOVER DEPOIS - APENAS PARA TESTE DE UI
+  todayMaxT.textContent = "36'C";
 
-    cardContainer.appendChild(todayCard);
+  let todayMinT = document.createElement("p");
+  todayMinT.id = "today-mint";
+  //REMOVER DEPOIS - APENAS PARA TESTE DE UI
+  todayMinT.textContent = "21'C";
 
-    for (let i = 0; i < 4; i++) {
-        const element = document.createElement('div')
-        element.id = "day" + i + "-card"
-        element.classList.add("day-card")
-        p = document.createElement('p');
-        p.id = "day" + i + "-text";
-        p.classList.add("day-text");
-        console.log(date.getDate);
-        p.textContent = date.getDate() + i + 1 + "/" + date.getMonth() + 1;
+  todayMinMax.appendChild(todayMaxT);
+  todayMinMax.appendChild(todayMinT);
 
-        element.appendChild(p);
+  infoCont.appendChild(p);
+  infoCont.appendChild(todayCurr);
+  infoCont.appendChild(todayMinMax);
 
-        cardContainer.appendChild(element)
-    }
+  todayCard.appendChild(infoCont);
 
-    document.getElementById("content-container").appendChild(cardContainer)
+  cardContainer.appendChild(todayCard);
+
+  for (let i = 0; i < 4; i++) {
+    const element = document.createElement("div");
+    element.id = "day" + i + "-card";
+    element.classList.add("day-card");
+    p = document.createElement("p");
+    p.id = "day" + i + "-text";
+    p.classList.add("day-text");
+    console.log(date.getDate);
+    p.textContent = date.getDate() + i + 1 + "/" + date.getMonth() + 1;
+
+    element.appendChild(p);
+
+    cardContainer.appendChild(element);
+  }
+
+  document.getElementById("content-container").appendChild(cardContainer);
 }
-export { weatherCards, citySearch }
+
+export { weatherCards, citySearch };

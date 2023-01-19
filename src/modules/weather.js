@@ -3,7 +3,7 @@
 
 async function getCity(city) {
     const url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=1ffdc9ad57e02cc6f9d10ae53a341c18";
-
+    console.log(city);
     const response = await fetch(url, { mode: 'cors' });
 
     const data = await response.json();
@@ -27,5 +27,5 @@ async function getWeatherForToday(cityName) {
         
 }
 
-export { getWeatherForToday }
+export { getWeatherForToday, getCity }
 

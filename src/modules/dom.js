@@ -1,12 +1,59 @@
-import { getWeatherForToday } from "./weather.js";
+import { getWeatherForToday, getCity } from "./weather.js";
 
+
+async function changeCity(){
+    let city = document.getElementById("search-field");
+    let citydata = await getCity(city.value);
+    let cityName = await citydata.name;
+    let countryName = await citydata.country;
+    
+    document.getElementById("city-text").textContent = cityName+", "+countryName;
+
+    let textLength = document.getElementById("city-text").textContent.length;
+    let desiredWidth = 0.5;
+    let fontSize = (desiredWidth * 100) / textLength;
+    document.getElementById("city-text").style.fontSize = fontSize + "vw";
+}
 
 function citySearch() {
-    const city = document.createElement('div');
+    const cityContainer = document.createElement('div');
     const contentContainer = document.getElementById("content-container");
-    city.id = "city";
-    city.textContent = "Lisbon";
-    contentContainer.appendChild(city);
+    cityContainer.id = "city-container"
+
+    const cityText = document.createElement('div');
+    cityText.id = "city-text";
+    cityText.textContent = "Lisbon, PT";
+
+    const citySearchField = document.createElement("input");
+    citySearchField.setAttribute("type", "text");
+    citySearchField.setAttribute("id", "search-field");
+    citySearchField.setAttribute("placeholder", "Search...");
+
+
+
+    const citySearchB = document.createElement("button");
+    citySearchB.setAttribute("id", "search-button");
+    citySearchB.setAttribute("type", "search-button");
+    citySearchB.innerHTML = "<span class='material-symbols-outlined'> search </span>";
+    citySearchB.addEventListener("click",()=>{
+        changeCity();
+        document.getElementById("search-field").textContent = "";
+    })
+
+    citySearchField.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+          // Cancel the default action, if needed
+          event.preventDefault();
+          // Trigger the button element with a click
+          document.getElementById("search-button").click();
+        }
+      });
+    cityContainer.appendChild(cityText);
+    cityContainer.appendChild(citySearchField);
+    cityContainer.appendChild(citySearchB);
+
+    contentContainer.appendChild(cityContainer);
 }
 
 function weatherCards() {
@@ -28,7 +75,7 @@ function weatherCards() {
 
     cardContainer.appendChild(todayCard);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         const element = document.createElement('div')
         element.id = "day" + i + "-card"
         element.classList.add("day-card")

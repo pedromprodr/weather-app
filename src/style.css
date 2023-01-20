@@ -15,8 +15,10 @@ body {
   position: absolute;
   top: 50%; /* move the spinner to the center of the parent element */
   left: 50%; /* move the spinner to the center of the parent element */
-  transform: translate(-50%, -50%); /* move the spinner up and left by 50% of its own size */
-
+  transform: translate(
+    -50%,
+    -50%
+  ); /* move the spinner up and left by 50% of its own size */
 }
 
 @keyframes spin {
@@ -28,15 +30,20 @@ body {
   }
 }
 #overlay {
-    display: none; /* hide the overlay by default */
-    position: fixed; /* position the overlay on top of the page */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* make the overlay semi-transparent black */
-    z-index: 10; /* make sure the overlay is on top of other elements */
-  }
+  display: none; /* hide the overlay by default */
+  position: fixed; /* position the overlay on top of the page */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* make the overlay semi-transparent black */
+  z-index: 10; /* make sure the overlay is on top of other elements */
+}
 #content-container {
   margin-top: 7%;
   display: flex;
@@ -120,7 +127,6 @@ body {
   justify-content: space-between;
 }
 
-
 #today-info-container {
   margin: 10px;
   font-family: "Lexend";
@@ -149,19 +155,20 @@ body {
 }
 #today-mint {
   font-size: 34px;
-  margin-bottom: 0;
+  margin-bottom: 20%;
 }
 #today-maxt {
-  margin-bottom: 0;
+  margin-bottom: 20%;
 }
 
-#today-current{
-    font-size: 6vw;
+#today-current {
+  font-size: 6vw;
+  margin-bottom: 20%;
 }
-#today-image{
-    grid-column: 3/4;
-    padding-right: 20px;
-    width: 100%;
+#today-image {
+  grid-column: 3/4;
+  padding-right: 20px;
+  width: 100%;
 }
 #today-card {
   box-sizing: border-box;
@@ -182,12 +189,38 @@ body {
   position: relative;
   width: 14vw;
   height: 30vh;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
   background: #3700b3;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
 }
-
+.day-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 10px;
+  margin-bottom: 30px;
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 40px;
+  color: #f3f3f3;
+}
+.day-mint {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 20%;
+}
+.day-maxt {
+  margin-top: 0;
+  margin-bottom: 20%;
+}
 #today-text {
   margin: 14px;
   font-family: "Lexend";

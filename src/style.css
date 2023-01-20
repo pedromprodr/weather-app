@@ -117,14 +117,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-around;
+  justify-content: space-between;
 }
-#today-info-container > p {
+
+
+#today-info-container {
   margin: 10px;
   font-family: "Lexend";
   font-style: normal;
   font-weight: 400;
-  font-size: 38px;
+  font-size: 44px;
   line-height: 40px;
 
   color: #121212;
@@ -137,25 +139,35 @@ body {
   align-items: flex-end;
   gap: 10px;
   margin: 10px;
+  margin-bottom: 30px;
   font-family: "Lexend";
   font-style: normal;
   font-weight: 400;
-  font-size: 36px;
+  font-size: 40px;
   line-height: 40px;
   color: #121212;
 }
 #today-mint {
-  font-size: 26px;
+  font-size: 34px;
   margin-bottom: 0;
 }
 #today-maxt {
   margin-bottom: 0;
 }
+
+#today-current{
+    font-size: 6vw;
+}
+#today-image{
+    grid-column: 3/4;
+    padding-right: 20px;
+    width: 100%;
+}
 #today-card {
   box-sizing: border-box;
   position: relative;
   display: grid;
-  grid-template-columns: 4fr 0.8fr 2fr;
+  grid-template-columns: 3fr 0.8fr 2fr;
   width: 24vw;
   height: 50vh;
   padding-left: 10px;
@@ -177,7 +189,7 @@ body {
 }
 
 #today-text {
-  margin: 10px;
+  margin: 14px;
   font-family: "Lexend";
   font-style: normal;
   font-weight: 400;
